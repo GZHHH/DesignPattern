@@ -1,0 +1,34 @@
+#pragma once
+#include "inewspaper.h"
+#include <iostream>
+#include <string>
+
+class SubHuman :
+    public ISubScribe
+{
+public:
+    SubHuman(std::string name);
+    ~SubHuman();
+    void HasNewPaper();
+
+private:
+    std::string m_name;
+};
+
+#include "SubHuman.h"
+
+using namespace std;
+SubHuman::SubHuman(string name)
+{
+    m_name = name;
+}
+
+
+SubHuman::~SubHuman()
+{
+}
+
+void SubHuman::HasNewPaper()
+{
+    std::cout << m_name << "有报纸来了！！" << endl;
+}
