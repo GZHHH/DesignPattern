@@ -1,0 +1,20 @@
+#include <iostream>
+#include "inewspaper.h"
+#include "PeopleNewsPaper.h"
+#include "SubHuman.h"
+
+int main()
+{
+    INewsPaper* peopPaper = new PeopleNewsPaper();
+    ISubScribe* sub = new SubHuman("小李");
+    peopPaper->RegisterSubscriber(sub);
+    sub = new SubHuman("小张");
+    peopPaper->RegisterSubscriber(sub);
+    sub = new SubHuman("小刘");
+    peopPaper->RegisterSubscriber(sub);
+    peopPaper->SendPaper();
+    peopPaper->RemoveSubScriber(sub);
+    peopPaper->SendPaper();
+    delete peopPaper;
+
+}
