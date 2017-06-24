@@ -1,0 +1,81 @@
+#pragma once
+#include "inewspaper.h"
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class PeopleNewsPaper :
+    public INewsPaper
+{
+public:
+    PeopleNewsPaper();
+
+    virtual ~PeopleNewsPaper();
+
+    //添加订阅者
+    void RegisterSubscriber(ISubScribe* f_subScribe);
+    //取消订阅
+     void RemoveSubScriber(ISubScribe* f_subScribe);
+    //发送报纸
+    void SendPaper();
+
+private:
+    vector<ISubScribe*> subs;
+};
+
+#include "PeopleNewsPaper.h"
+#include <algorithm>
+
+
+void MyClearSub(ISubScribe* sub)
+{
+    if (sub) {
+        delete sub;
+        sub = nullptr;
+    }
+}
+PeopleNewsPaper::PeopleNewsPaper()
+{
+
+}
+
+
+PeopleNewsPaper::~PeopleNewsPaper()
+{
+    if (!subs.empty()) {
+        for_each(subs.begin(), subs.end(), MyClearSub);
+        subs.clear();
+    }
+}
+
+
+
+
+//添加订阅者
+void PeopleNewsPaper::RegisterSubscriber(ISubScribe* f_subScribe)
+{
+    if (subs.empty()) {
+        subs.push_back(f_subScribe);
+    }
+    else if (find(subs.begin(), subs.end(), f_subScribe) == subs.end()) {
+        subs.push_back(f_subScribe);
+    }
+}
+
+//取消订阅
+void PeopleNewsPaper::RemoveSubScriber(ISubScribe* f_subScribe)
+{
+    vector<ISubScribe*>::iterator itor = find(subs.begin(), subs.end(), f_subScribe);
+    if (itor != subs.end()) {
+        subs.erase(itor);
+        MyClearSub(f_subScribe);
+    }
+}
+
+//发送报纸
+void PeopleNewsPaper::SendPaper()
+{
+    for (ISubScribe* sub : subs) {
+        sub->HasNewPaper();
+    }
+}
